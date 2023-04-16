@@ -21,7 +21,6 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 INSTALLED_APPS = [
-    "ninja",
     "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -29,6 +28,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.sessions",
     "django.contrib.staticfiles",
+    "api",
 ]
 
 MIDDLEWARE = [
@@ -109,5 +109,3 @@ CORS_ORIGIN_ALLOW_ALL = True
 ENV_NAME = os.getenv("ENV_NAME", "unset")
 
 STATIC_URL = 'static/'
-
-BASE_DIR = Path(__file__).resolve().parent.parent

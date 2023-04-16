@@ -3,7 +3,7 @@ from ninja import NinjaAPI
 
 from .elevation import get_single_elevation
 
-api = NinjaAPI()
+api = NinjaAPI(title='Teleget API')
 
 
 @api.get("/elevation")
