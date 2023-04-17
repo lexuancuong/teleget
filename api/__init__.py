@@ -15,7 +15,7 @@ def get_elevation_api(request, lat: float, long: float):
         f"Failed to get elevation from lat={lat}, long={long} because {{exc}}"
     )
     try:
-        if not (elevation := get_single_elevation(lat, long)):
+        if (elevation := get_single_elevation(lat, long)) is None:
             return HttpResponse(
                 error_msg_template.format(exc='elevation not found'),
                 status=404,
