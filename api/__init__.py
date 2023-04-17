@@ -12,7 +12,7 @@ def get_elevation_api(request, lat: float, long: float):
     # lat = 10.74474
     # lng = 106.70847
     error_msg_template = (
-        f"Failed to get elevation from {lat}, {long} because {{exc}}",
+        f"Failed to get elevation from {lat}, {long} because {{exc}}"
     )
     try:
         if not (elevation := get_single_elevation(lat, long)):
