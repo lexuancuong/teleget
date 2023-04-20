@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from django.http.response import HttpResponse
 from ninja import NinjaAPI, Schema
@@ -40,7 +40,7 @@ class LocationRequest(Schema):
 
 class ElevationResponse(Schema):
     location: LocationRequest
-    elevation: float
+    elevation: Optional[float]
 
 
 @api.post("/elevation", response=List[ElevationResponse])
