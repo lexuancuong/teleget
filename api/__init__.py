@@ -1,5 +1,7 @@
+from typing import List
+
 from django.http.response import HttpResponse
-from ninja import NinjaAPI
+from ninja import NinjaAPI, Schema
 
 from .elevation import get_single_elevation
 
@@ -27,5 +29,40 @@ def get_elevation_api(request, lat: float, long: float):
     except Exception as exc:
         return HttpResponse(
             f"Failed to get elevation from {lat}, {long} because {exc}",
+            status=400,
+        )
+
+
+class LocationRequest(Schema):
+    lat: float
+    long: float
+
+
+class ElevationResponse(Schema):
+    location: LocationRequest
+    elevation: float
+
+
+@api.post("/elevation", response=List[ElevationResponse])
+def get_multi_elevation_api(request, locations: List[LocationRequest]):
+    # Sample:
+    # lat = 10.74474
+    # lng = 106.70847
+    try:
+        res: list[ElevationResponse] = []
+        lats = [location.lat for location in locations]
+        longs = [location.long for location in locations]
+        elevations = get_single_elevation(lats, longs)
+        for index in range(len(lats)):
+            res.append(
+                ElevationResponse(
+                    location=LocationRequest(lat=lats[index], long=longs[index]),
+                    elevation=elevations[index],
+                )
+            )
+        return res
+    except Exception as exc:
+        return HttpResponse(
+            f"Failed to get multiple elevations because {exc}",
             status=400,
         )

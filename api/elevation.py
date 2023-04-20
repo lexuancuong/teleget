@@ -1,3 +1,5 @@
+from typing import List
+
 import numpy as np
 import pyproj
 import rasterio
@@ -187,6 +189,5 @@ def _get_elevation_from_path(
     return z_all
 
 
-def get_single_elevation(lat: float, long: float):
-    if res := _get_elevation_from_path([float(lat)], [float(long)]):
-        return res[0]
+def get_single_elevation(lats: List[float], longs: List[float]):
+    return _get_elevation_from_path(lats, longs)
