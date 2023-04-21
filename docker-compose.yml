@@ -1,0 +1,32 @@
+version: "3.6"
+services:
+  db:
+    image: postgres:14-alpine
+    ports:
+    - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+        - djangonetwork
+  api:
+    build: ./services/api
+    ports:
+    - "8000:8000"
+    restart: always
+    volumes:
+      - ./services/api/:/srv/teleget/
+      - ./data/:/srv/teleget/data/
+    links:
+       - db:db
+    networks:
+        - djangonetwork
+    depends_on:
+      - db
+networks:
+    djangonetwork:
+        driver: bridge
+volumes:
+  app_db_data:
+    name: app_db_data

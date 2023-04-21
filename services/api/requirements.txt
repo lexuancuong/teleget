@@ -1,7 +1,8 @@
 numpy==1.24.2
 pip-tools
 pyproj==3.5.0
-rasterio==1.2.10
 Django==3.2.14
 django-ninja==0.21.0
 django-cors-headers==3.13.0
+psycopg2-binary==2.9.6
+pydantic==1.10.7

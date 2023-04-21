@@ -189,5 +189,11 @@ def _get_elevation_from_path(
     return z_all
 
 
-def get_single_elevation(lats: List[float], longs: List[float]):
-    return _get_elevation_from_path(lats, longs)
+def get_single_elevation(lat: float, long: float):
+    # lat = 10.74474
+    # lng = 106.70847
+    if res := _get_elevation_from_path([float(lat)], [float(long)]):
+        return res[0]
+
+def get_multi_elevation(lats: List[float], longs: List[float]):
+    return _get_elevation_from_path(lats, longs, settings.BASE_DIR / 'data/dem_compress.tif',)

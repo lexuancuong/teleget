@@ -1,4 +1,3 @@
-import ast
 import os
 import sys
 from pathlib import Path
@@ -15,6 +14,7 @@ SECRET_KEY = (
     or 'django-insecure-r@fjczgi4h$6=fa0*()xjq--ven06u!!xflbz&cb77rnn'
 )
 
+
 TESTING = sys.argv[1:2] == ["test"]
 
 ALLOWED_HOSTS = ["*"]
@@ -28,10 +28,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.sessions",
     "django.contrib.staticfiles",
-    "api",
+    "elevation",
+    "aqi",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -39,9 +41,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
 ]
-ROOT_URLCONF = "teleget.urls"
+ROOT_URLCONF = "app.urls"
 
 TEMPLATES = [
     {
@@ -59,21 +60,22 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "teleget.wsgi.application"
+WSGI_APPLICATION = "app.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql_psycopg2",
-#         "NAME": os.environ["DB_NAME"],
-#         "USER": os.environ["DB_USER"],
-#         "PASSWORD": os.environ["DB_PWD"],
-#         "HOST": os.environ["DB_HOST"],
-#         "PORT": os.getenv("DB_PORT") or "5432",
-#     }
-# }
+
+DATABASES = {
+    "default": {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
+        'PORT': 5432,
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/#auth-password-validators

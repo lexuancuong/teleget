@@ -1,14 +1,14 @@
 from typing import List, Optional
 
 from django.http.response import HttpResponse
-from ninja import NinjaAPI, Schema
+from ninja import Router, Schema
 
-from .elevation import get_single_elevation
+from .utils import get_multi_elevation, get_single_elevation
 
-api = NinjaAPI(title='Teleget API')
+router = Router()
 
 
-@api.get("/elevation")
+@router.get("/")
 def get_elevation_api(request, lat: float, long: float):
     # Sample:
     # lat = 10.74474
@@ -43,7 +43,7 @@ class ElevationResponse(Schema):
     elevation: Optional[float]
 
 
-@api.post("/elevation", response=List[ElevationResponse])
+@router.post("/", response=List[ElevationResponse])
 def get_multi_elevation_api(request, locations: List[LocationRequest]):
     # Sample:
     # lat = 10.74474
@@ -52,7 +52,7 @@ def get_multi_elevation_api(request, locations: List[LocationRequest]):
         res: list[ElevationResponse] = []
         lats = [location.lat for location in locations]
         longs = [location.long for location in locations]
-        elevations = get_single_elevation(lats, longs)
+        elevations = get_multi_elevation(lats, longs)
         for index in range(len(lats)):
             res.append(
                 ElevationResponse(

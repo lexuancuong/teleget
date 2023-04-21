@@ -17,13 +17,15 @@ ENV GDAL_NUM_THREADS=ALL_CPUS
 ENV GDAL_CACHEMAX=512
 
 RUN pip --no-cache-dir install --upgrade pip==22.1.2
-
+# This one so big, need to re-build the wheel again.
+# Put this one here to reduce the build time.
+RUN pip install rasterio==1.2.10
 COPY requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir --disable-pip-version-check -r ./requirements.txt && \
     rm -rf /root/.cache/pip/* && \
     rm ./requirements.txt
 
-RUN mkdir -p /srv/logs
+RUN mkdir -p /srv/teleget/
 WORKDIR /srv/teleget/
 
 ADD . ./

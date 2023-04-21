@@ -1,5 +1,7 @@
 #!/bin/sh
 
+python manage.py migrate
+
 # Set container time
 unlink /etc/localtime
 ln -s /usr/share/zoneinfo/Universal /etc/localtime
