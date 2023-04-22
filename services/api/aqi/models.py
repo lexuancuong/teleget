@@ -6,8 +6,8 @@ class AirInfo(models.Model):
     pm25 = models.FloatField(null=True)
     temperature = models.IntegerField(null=True)
     humidity = models.IntegerField(null=True)
-    lat = models.FloatField()
-    long = models.FloatField()
+    lat = models.FloatField(null=True)
+    long = models.FloatField(null=True)
 
     class Meta:
         db_table = 'air_info'

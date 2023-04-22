@@ -8,8 +8,11 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    volumes:
+      - teleget_db_data:/var/lib/postgresql/data/pgdata
+
     networks:
-        - djangonetwork
+        - teleget
   api:
     build: ./services/api
     ports:
@@ -21,12 +24,20 @@ services:
     links:
        - db:db
     networks:
-        - djangonetwork
+        - teleget
     depends_on:
       - db
+  scraper:
+    build: ./services/scraper
+    restart: always
+    volumes:
+      - ./services/scraper/:/srv/scraper/
+    networks:
+        - teleget
+
 networks:
-    djangonetwork:
+    teleget:
         driver: bridge
 volumes:
-  app_db_data:
-    name: app_db_data
+  teleget_db_data:
+    name: teleget_db_data
