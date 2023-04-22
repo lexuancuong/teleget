@@ -1,6 +1,12 @@
+from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel
+
+
+class LocationSchema(BaseModel):
+    lat: float
+    long: float
 
 
 class AirInfoSchema(BaseModel):
@@ -8,8 +14,9 @@ class AirInfoSchema(BaseModel):
     pm25: Optional[float]
     temperature: Optional[int]
     humidity: Optional[int]
-    lat: Optional[float]
-    long: Optional[float]
+    location: Optional[LocationSchema]
+    active: Optional[bool] = True
+    updated_at: Optional[datetime]
 
     class Config:
         orm_mode = True

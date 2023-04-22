@@ -10,6 +10,7 @@ RUN set -e && \
     rm -rf /var/lib/apt/lists/*
 
 RUN pip install scrapy==2.8.0
+RUN pip install schedule==1.2.0
 
 RUN mkdir -p /srv/scraper
 WORKDIR /srv/scraper
