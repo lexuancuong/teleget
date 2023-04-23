@@ -1,3 +1,4 @@
+import logging
 import time
 
 import schedule
@@ -9,8 +10,8 @@ def crawl_aqi():
 
 
 if __name__ == '__main__':
-    schedule.every().minute.at(":02").do(crawl_aqi)
-    print(schedule.get_jobs())
+    schedule.every().hour.at(":02").do(crawl_aqi)
+    logging.info(schedule.get_jobs())
     while True:
         schedule.run_pending()
         time.sleep(1)

@@ -1,4 +1,9 @@
+from datetime import timedelta
 from math import atan2, cos, sin, sqrt
+from typing import Dict
+
+from django.db.models.query import QuerySet
+from django.utils import timezone
 
 from .models import AirInfo
 from .schemas import LocationSchema
@@ -19,8 +24,12 @@ def cal_distance_between_2_point(p1: LocationSchema, p2: LocationSchema) -> floa
     return R * c
 
 
-def get_aqi_from_location(location: LocationSchema) -> AirInfo:
+def get_current_aqi(location: LocationSchema) -> AirInfo:
     air_infos = AirInfo.objects.filter(active=True).order_by('-id')[:10]
+    return get_aqi_from_air_infos(location, air_infos)
+
+
+def get_aqi_from_air_infos(location: LocationSchema, air_infos: QuerySet) -> AirInfo:
     min_distance = 10000000000
     returned_air_info = None
     for air_info in air_infos:
@@ -34,3 +43,20 @@ def get_aqi_from_location(location: LocationSchema) -> AirInfo:
     if not returned_air_info:
         raise Exception(f'Cannot get AQI from location={location.dict()}')
     return returned_air_info
+
+
+def get_historical_aqi_data(
+    location: LocationSchema, num_hours: int = 24
+) -> Dict[int, AirInfo]:
+    res = {}
+    for num_hour in range(num_hours):
+        air_infos = AirInfo.objects.filter(
+            active=True,
+            updated_at__lt=timezone.now() - timedelta(hours=num_hour),
+            updated_at__gt=timezone.now() - timedelta(hours=num_hour + 1),
+        ).order_by('-id')[:10]
+        returned_air_info = None
+        if air_infos:
+            returned_air_info = get_aqi_from_air_infos(location, air_infos)
+        res[num_hour] = returned_air_info
+    return res

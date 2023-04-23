@@ -14,7 +14,7 @@ class AirInfo(models.Model):
         db_table = 'air_info'
         indexes = [
             models.Index(
-                fields=['active'],
-                name='index_active',
+                fields=['active', 'updated_at'],
+                name='index_active_n_updated_at',
             ),
         ]
