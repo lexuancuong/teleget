@@ -29,11 +29,11 @@ services:
     depends_on:
       - db
 
-  scraper:
-    build: ./services/scraper
+  crawler:
+    build: ./services/crawler
     restart: always
     volumes:
-      - ./services/scraper/:/srv/scraper/
+      - ./services/crawler/:/srv/crawler/
     networks:
         - teleget
 

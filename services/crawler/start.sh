@@ -9,9 +9,9 @@ while true; do
   ps -ef | grep -v grep | grep -i main
   if [ $? -ne "0" ]; then
     echo "Service started"
-    python /srv/scraper/main.py
+    python3 /srv/crawler/main.py
   else
-    echo "Scraper not started !!! Please wait on 5 sec to restart"
+    echo "crawler not started !!! Please wait on 5 sec to restart"
   fi
   sleep 5
 done
