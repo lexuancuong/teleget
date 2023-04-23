@@ -20,7 +20,7 @@ def cal_distance_between_2_point(p1: LocationSchema, p2: LocationSchema) -> floa
 
 
 def get_aqi_from_location(location: LocationSchema) -> AirInfo:
-    air_infos = AirInfo.objects.filter(active=True).reverse()[:10]
+    air_infos = AirInfo.objects.filter(active=True).order_by('-id')[:10]
     min_distance = 10000000000
     returned_air_info = None
     for air_info in air_infos:
