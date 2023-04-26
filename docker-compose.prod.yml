@@ -12,20 +12,14 @@ services:
     volumes:
       - teleget_db_data:/var/lib/postgresql/data/teleget
 
-    networks:
-        - teleget
   api:
     build: ./services/api
     restart: always
-    expose:
-      - 8000
     volumes:
       - ./services/api/:/srv/teleget/
       - ./data/:/srv/teleget/data/
     links:
        - db:db
-    networks:
-        - teleget
     depends_on:
       - db
 
@@ -34,13 +28,13 @@ services:
     restart: always
     volumes:
       - ./services/crawler/:/srv/crawler/
-    networks:
-        - teleget
+    depends_on:
+      - api
 
   nginx:
     build: ./services/nginx
     ports:
-      - 8000:80
+      - 80:80
     depends_on:
       - api
 
