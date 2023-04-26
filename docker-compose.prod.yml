@@ -39,7 +39,7 @@ services:
     volumes:
       - ./services/nginx/conf/:/etc/nginx/conf.d/:ro
       - ./services/certbot/www:/var/www/certbot/:ro
-      - ./services/certbot/conf/:/etc/nginx/ssl/:ro
+      - ./ssl/:/etc/nginx/ssl/:ro
     depends_on:
       - api
       - certbot
