@@ -56,11 +56,9 @@ def get_batch_air_information_from_multiple_lat_long(
 def get_historical_air_information_from_lat_long(
     request, lat: float, long: float, num_hours: int = 24
 ):
-    print(lat)
     try:
         requested_location = LocationSchema(lat=lat, long=long)
         res = get_historical_aqi_data(requested_location, num_hours)
-        print(res)
         return res
     except Exception as exc:
         logging.exception(
