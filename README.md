@@ -4,6 +4,8 @@
 - Get historical AQI data for single lat/long in Ho Chi Minh city.
 - Crawl `iqair` periodically at every 1 hour to fetch the latest AQI data.
 
+This application was deployed on https://www.hasiti.com/api/docs.
+
 ## How to install this application
 1. Install docker and docker-compose.
 2. Add raster file of Vietnam into ./data/
