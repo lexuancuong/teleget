@@ -37,9 +37,9 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./services/nginx/conf/:/etc/nginx/conf.d/
-      - ./services/certbot/www/:/var/www/certbot/
-      - ./services/certbot/conf/:/etc/nginx/ssl/
+      - ./services/nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./services/certbot/www:/var/www/certbot/:ro
+      - ./services/certbot/conf/:/etc/nginx/ssl/:ro
     depends_on:
       - api
       - certbot
@@ -47,8 +47,8 @@ services:
   certbot:
     image: certbot/certbot:latest
     volumes:
-      - ./services/certbot/www/:/var/www/certbot/
-      - ./services/certbot/conf/:/etc/letsencrypt/
+      - ./services/certbot/www/:/var/www/certbot/:rw
+      - ./services/certbot/conf/:/etc/letsencrypt/:rw
 
 networks:
     teleget:
