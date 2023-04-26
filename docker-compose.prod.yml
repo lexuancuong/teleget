@@ -16,7 +16,7 @@ services:
     build: ./services/api
     restart: always
     ports:
-      - 80:80
+      - 8000:80
     volumes:
       - ./services/api/:/srv/teleget/
       - ./data/:/srv/teleget/data/
