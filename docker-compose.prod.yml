@@ -41,7 +41,8 @@ services:
     volumes:
       - ./services/nginx/conf/:/etc/nginx/conf.d/:ro
       - ./services/certbot/www:/var/www/certbot/:ro
-      - ./ssl/:/etc/nginx/ssl/:ro
+      - ./ssl/:/etc/nginx/ssl/
+    command: /bin/sh -c "nginx -g 'daemon off;'"
     depends_on:
       - api
       - certbot
