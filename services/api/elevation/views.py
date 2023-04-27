@@ -9,7 +9,7 @@ router = Router()
 
 
 @router.get("/")
-def get_elevation_api(request, lat: float, long: float):
+def get_elevation_api(request, lat: str, long: str):
     # Sample:
     # lat = 10.74474
     # lng = 106.70847
@@ -17,13 +17,18 @@ def get_elevation_api(request, lat: float, long: float):
         f"Failed to get elevation from lat={lat}, long={long} because {{exc}}"
     )
     try:
-        if (elevation := get_single_elevation(lat, long)) is None:
+        # Front-end need this support because they cannot convert to correct float format
+        lat = lat.replace(',', '.')
+        long = long.replace(',', '.')
+        lat_float = float(lat)
+        long_float = float(long)
+        if (elevation := get_single_elevation(lat_float, long_float)) is None:
             return HttpResponse(
                 error_msg_template.format(exc='elevation not found'),
                 status=404,
             )
         return {
-            'location': {'lat': lat, 'long': long},
+            'location': {'lat': lat_float, 'long': long_float},
             'elevation': elevation,
         }
     except Exception as exc:

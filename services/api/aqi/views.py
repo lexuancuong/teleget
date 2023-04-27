@@ -54,10 +54,13 @@ def get_batch_air_information_from_multiple_lat_long(
 
 @router.get("/history", response=Dict[int, Optional[AirInfoSchemaResponse]])
 def get_historical_air_information_from_lat_long(
-    request, lat: float, long: float, num_hours: int = 24
+    request, lat: str, long: str, num_hours: int = 24
 ):
     try:
-        requested_location = LocationSchema(lat=lat, long=long)
+        # Front-end need this support because they cannot convert to correct float format
+        lat = lat.replace(',', '.')
+        long = long.replace(',', '.')
+        requested_location = LocationSchema(lat=float(lat), long=float(long))
         res = get_historical_aqi_data(requested_location, num_hours)
         return res
     except Exception as exc:
