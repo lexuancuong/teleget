@@ -1,12 +1,20 @@
 from datetime import datetime
-from typing import Optional
+from typing import Dict, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, root_validator
 
 
 class LocationSchema(BaseModel):
     lat: float
     long: float
+
+    @root_validator(pre=True)
+    def convert_lat_long_from_string(cls, values: Dict):
+        for key in ('lat', 'long'):
+            value = values.get(key)
+            if value:
+                value = float(str(value).replace(',', '.'))
+        return values
 
 
 class AirInfoSchema(BaseModel):
