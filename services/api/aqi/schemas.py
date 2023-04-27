@@ -1,12 +1,12 @@
 from datetime import datetime
-from typing import Dict, Optional
+from typing import Dict, Optional, Union
 
 from pydantic import BaseModel, root_validator
 
 
 class LocationSchema(BaseModel):
-    lat: float
-    long: float
+    lat: Union[float, str]
+    long: Union[float, str]
 
     @root_validator(pre=True)
     def convert_lat_long_from_string(cls, values: Dict):

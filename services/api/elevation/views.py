@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 from django.http.response import HttpResponse
 from ninja import Router, Schema
@@ -40,8 +40,8 @@ def get_elevation_api(request, lat: str, long: str):
 
 
 class LocationRequest(Schema):
-    lat: float
-    long: float
+    lat: Union[float,str]
+    long: Union[float, str]
 
     @root_validator(pre=True)
     def convert_lat_long_from_string(cls, values: Dict):
