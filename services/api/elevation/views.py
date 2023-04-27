@@ -1,7 +1,8 @@
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from django.http.response import HttpResponse
 from ninja import Router, Schema
+from pydantic import root_validator
 
 from .utils import get_multi_elevation, get_single_elevation
 
@@ -41,6 +42,15 @@ def get_elevation_api(request, lat: str, long: str):
 class LocationRequest(Schema):
     lat: float
     long: float
+
+    @root_validator(pre=True)
+    def convert_lat_long_from_string(cls, values: Dict):
+        # TODO DRY
+        for key in ('lat', 'long'):
+            value = values.get(key)
+            if value:
+                value = float(str(value).replace(',', '.'))
+        return values
 
 
 class ElevationResponse(Schema):
