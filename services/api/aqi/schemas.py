@@ -13,7 +13,7 @@ class LocationSchema(BaseModel):
         for key in ('lat', 'long'):
             value = values.get(key)
             if value:
-                value = float(str(value).replace(',', '.'))
+                values[key] = float(str(value).replace(',', '.'))
         return values
 
 
